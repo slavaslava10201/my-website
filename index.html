@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Отсчёт до лета — Тюмень (UTC+5)</title>
-  <meta name="description" content="Стильный таймер обратного отсчёта до лета по тюменскому времени (Asia/Yekaterinburg, UTC+5)." />
+  <title>Отсчёт до 1 сентября — Тюмень (UTC+5)</title>
+  <meta name="description" content="Стильный таймер обратного отсчёта до 1 сентября по тюменскому времени (Asia/Yekaterinburg, UTC+5)." />
   <style>
     :root {
-      --bg-start: #0f172a; /* slate-900 */
-      --bg-end: #1e293b;   /* slate-800 */
+      --bg-start: #0f172a;
+      --bg-end: #1e293b;
       --card: rgba(255, 255, 255, 0.06);
-      --text: #e2e8f0;     /* slate-200 */
-      --muted: #94a3b8;    /* slate-400 */
-      --accent: #22c55e;   /* green-500 */
-      --accent-2: #86efac; /* green-300 */
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #22c55e;
+      --accent-2: #86efac;
       --shadow: 0 20px 60px rgba(0,0,0,.35);
     }
 
@@ -21,7 +21,7 @@
     html, body { height: 100%; }
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial;
       color: var(--text);
       background: radial-gradient(1200px 800px at 20% 10%, #0b1220 0%, var(--bg-start) 35%, var(--bg-end) 100%);
       display: grid;
@@ -90,16 +90,9 @@
 
     .footer { color: var(--muted); font-size: 12px; }
 
-    .rain {
-      position: fixed; inset: 0; pointer-events: none; overflow: hidden;
-    }
-
+    .rain { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
     .leaf { position: absolute; top: -10vh; opacity: .85; filter: drop-shadow(0 6px 12px rgba(0,0,0,.25)); }
-
-    @keyframes fall {
-      to { transform: translateY(120vh) rotate(360deg); opacity: .9; }
-    }
-
+    @keyframes fall { to { transform: translateY(120vh) rotate(360deg); opacity: .9; } }
     .arrived { color: var(--accent-2); }
   </style>
 </head>
@@ -107,8 +100,8 @@
   <div class="wrap">
     <div>
       <div class="badge">🌍 Время Тюмени · Asia/Yekaterinburg (UTC+5)</div>
-      <h1 class="title">Отсчёт до лета</h1>
-      <div class="subtitle">Лето считается с 1 июня, 00:00 по тюменскому времени.</div>
+      <h1 class="title">Отсчёт до 1 сентября</h1>
+      <div class="subtitle">Считаем до 1 сентября, 00:00 по тюменскому времени.</div>
     </div>
 
     <div class="card">
@@ -132,9 +125,8 @@
   <div class="rain" id="rain" aria-hidden="true"></div>
 
   <script>
-    // Настройки
-    const TZ = 'Asia/Yekaterinburg'; // Тюмень
-    const FIXED_OFFSET_HOURS = 5; // UTC+5 (без перехода на летнее время)
+    const TZ = 'Asia/Yekaterinburg';
+    const FIXED_OFFSET_HOURS = 5;
 
     function getTyumenNowParts() {
       const now = new Date();
@@ -146,7 +138,7 @@
       }).formatToParts(now).reduce((acc, p) => (acc[p.type] = p.value, acc), {});
       return {
         year: Number(parts.year),
-        month: Number(parts.month), // 1..12
+        month: Number(parts.month),
         day: Number(parts.day),
         hour: Number(parts.hour),
         minute: Number(parts.minute),
@@ -154,20 +146,18 @@
       };
     }
 
-    function targetSummerUtcMs() {
+    function targetSeptemberUtcMs() {
       const n = getTyumenNowParts();
       const hasArrivedThisYear = (
-        n.month > 6 ||
-        (n.month === 6 && (n.day > 1 || (n.day === 1 && (n.hour > 0 || n.minute > 0 || n.second > 0))))
+        n.month > 9 ||
+        (n.month === 9 && (n.day > 1 || (n.day === 1 && (n.hour > 0 || n.minute > 0 || n.second > 0))))
       );
       const year = hasArrivedThisYear ? n.year + 1 : n.year;
-      // 1 июня 00:00 по UTC+5 = 31 мая 19:00 UTC предыдущего дня
-      const utcMs = Date.UTC(year, 5, 1, 0, 0, 0) - FIXED_OFFSET_HOURS * 3600 * 1000;
+      const utcMs = Date.UTC(year, 8, 1, 0, 0, 0) - FIXED_OFFSET_HOURS * 3600 * 1000;
       return utcMs;
     }
 
     function plural(n, forms) {
-      // Русское склонение: [1, 2-4, 5-0]
       n = Math.abs(n) % 100; const n1 = n % 10;
       if (n > 10 && n < 20) return forms[2];
       if (n1 > 1 && n1 < 5) return forms[1];
@@ -187,7 +177,7 @@
 
     function updateTimer() {
       const nowMs = Date.now();
-      const targetMs = targetSummerUtcMs();
+      const targetMs = targetSeptemberUtcMs();
       let diff = Math.max(0, targetMs - nowMs);
 
       const totalSeconds = Math.floor(diff / 1000);
@@ -203,16 +193,15 @@
 
       const status = document.getElementById('status');
       if (diff === 0) {
-        status.innerHTML = '<span class="arrived">☀️ Лето наступило! Следующий отсчёт — до следующего 1 июня.</span>';
+        status.innerHTML = '<span class="arrived">📚 Наступил 1 сентября! Следующий отсчёт — до следующего года.</span>';
         startLeaves();
       } else {
-        status.textContent = `До лета осталось: ${days} ${plural(days, ['день','дня','дней'])}`;
+        status.textContent = `До 1 сентября осталось: ${days} ${plural(days, ['день','дня','дней'])}`;
       }
 
       document.getElementById('nowTyumen').textContent = formatTyumenNow();
     }
 
-    // Простая "зелёная метель" при наступлении лета
     function startLeaves() {
       const container = document.getElementById('rain');
       if (container.dataset.active) return;
@@ -220,10 +209,10 @@
       for (let i = 0; i < 40; i++) {
         const leaf = document.createElement('div');
         leaf.className = 'leaf';
-        leaf.textContent = '🍃';
+        leaf.textContent = '🍂';
         const duration = 6 + Math.random() * 6;
         const delay = Math.random() * 2;
-        const x = Math.random() * 100; // vw
+        const x = Math.random() * 100;
         const size = 22 + Math.random() * 18;
         leaf.style.left = x + 'vw';
         leaf.style.fontSize = size + 'px';
@@ -232,7 +221,6 @@
       }
     }
 
-    // Тик раз в секунду
     updateTimer();
     setInterval(updateTimer, 1000);
   </script>
