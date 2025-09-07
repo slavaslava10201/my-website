@@ -1029,7 +1029,7 @@
                         <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
                     </div>
                     <div class="faq-answer">
-                        <p>Никаких. Это же всего 100-500 рублей. Что вы хотели за эти деньги?</p>
+                        <p>Никаких. Это же всего 100-500 рублей. Что вы хоедите за эти деньги?</p>
                     </div>
                 </div>
                 
@@ -1098,10 +1098,9 @@
                             <label for="contact" class="form-label">Telegram или Email</label>
                             <input type="text" id="contact" name="contact" class="form-input" placeholder="Ваш контакт для спама" required>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="service" class="form-label">Услуга</label>
-                        <div class="form-group custom-select">
+
+                                                <div class="form-group custom-select">
+                            <label class="form-label">Услуга</label>
                             <div class="select-selected" id="service-select">Выберите способ потери денег</div>
                             <div class="select-items select-hide" id="service-options">
                                 <div data-value="Базовое удаление (100 руб.)">Базовое удаление (100 руб.)</div>
@@ -1241,28 +1240,30 @@
         const serviceOptions = document.getElementById('service-options');
         const serviceInput = document.getElementById('service');
         
-        serviceSelect.addEventListener('click', function(e) {
-            e.stopPropagation();
-            serviceOptions.classList.toggle('select-hide');
-            serviceSelect.classList.toggle('select-arrow-active');
-        });
-        
-        document.querySelectorAll('#service-options div').forEach(option => {
-            option.addEventListener('click', function() {
-                serviceSelect.textContent = this.textContent;
-                serviceInput.value = this.getAttribute('data-value');
-                serviceOptions.classList.add('select-hide');
-                serviceSelect.classList.remove('select-arrow-active');
+        if (serviceSelect && serviceOptions) {
+            serviceSelect.addEventListener('click', function(e) {
+                e.stopPropagation();
+                serviceOptions.classList.toggle('select-hide');
+                serviceSelect.classList.toggle('select-arrow-active');
             });
-        });
-        
-        // Close select when clicking outside
-        document.addEventListener('click', function(e) {
-            if (e.target !== serviceSelect) {
-                serviceOptions.classList.add('select-hide');
-                serviceSelect.classList.remove('select-arrow-active');
-            }
-        });
+            
+            document.querySelectorAll('#service-options div').forEach(option => {
+                option.addEventListener('click', function() {
+                    serviceSelect.textContent = this.textContent;
+                    serviceInput.value = this.getAttribute('data-value');
+                    serviceOptions.classList.add('select-hide');
+                    serviceSelect.classList.remove('select-arrow-active');
+                });
+            });
+            
+            // Close select when clicking outside
+            document.addEventListener('click', function(e) {
+                if (e.target !== serviceSelect) {
+                    serviceOptions.classList.add('select-hide');
+                    serviceSelect.classList.remove('select-arrow-active');
+                }
+            });
+        }
         
         // Modal for tariff selection
         const tariffModal = document.getElementById('tariffModal');
@@ -1271,108 +1272,118 @@
         const selectTariffButtons = document.querySelectorAll('.select-tariff');
         let selectedTariff = null;
         
-        selectTariffButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                selectedTariff = {
-                    name: this.getAttribute('data-tariff'),
-                    price: this.getAttribute('data-price')
-                };
-                
-                // Reset selections
-                document.querySelectorAll('.tariff-option').forEach(opt => {
-                    opt.classList.remove('selected');
+        if (selectTariffButtons.length && tariffModal && closeModal && confirmTariff) {
+            selectTariffButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    selectedTariff = {
+                        name: this.getAttribute('data-tariff'),
+                        price: this.getAttribute('data-price')
+                    };
+                    
+                    // Reset selections
+                    document.querySelectorAll('.tariff-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Find and select corresponding option
+                    document.querySelectorAll('.tariff-option').forEach(opt => {
+                        if (opt.getAttribute('data-tariff') === selectedTariff.name) {
+                            opt.classList.add('selected');
+                        }
+                    });
+                    
+                    confirmTariff.disabled = false;
+                    tariffModal.style.display = 'flex';
                 });
-                
-                // Find and select corresponding option
-                document.querySelectorAll('.tariff-option').forEach(opt => {
-                    if (opt.getAttribute('data-tariff') === selectedTariff.name) {
-                        opt.classList.add('selected');
+            });
+            
+            // Tariff selection in modal
+            document.querySelectorAll('.tariff-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove selection from all options
+                    document.querySelectorAll('.tariff-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Add selection to clicked option
+                    this.classList.add('selected');
+                    
+                    selectedTariff = {
+                        name: this.getAttribute('data-tariff'),
+                        price: this.getAttribute('data-price')
+                    };
+                    
+                    confirmTariff.disabled = false;
+                });
+            });
+            
+            // Confirm tariff selection
+            confirmTariff.addEventListener('click', function() {
+                if (selectedTariff) {
+                    // Set the selected value in the form
+                    if (serviceSelect && serviceInput) {
+                        serviceSelect.textContent = `${selectedTariff.name} (${selectedTariff.price} руб.)`;
+                        serviceInput.value = `${selectedTariff.name} (${selectedTariff.price} руб.)`;
                     }
-                });
-                
-                confirmTariff.disabled = false;
-                tariffModal.style.display = 'flex';
+                    
+                    // Close modal
+                    tariffModal.style.display = 'none';
+                    
+                    // Scroll to contact form
+                    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+                }
             });
-        });
-        
-        // Tariff selection in modal
-        document.querySelectorAll('.tariff-option').forEach(option => {
-            option.addEventListener('click', function() {
-                // Remove selection from all options
-                document.querySelectorAll('.tariff-option').forEach(opt => {
-                    opt.classList.remove('selected');
-                });
-                
-                // Add selection to clicked option
-                this.classList.add('selected');
-                
-                selectedTariff = {
-                    name: this.getAttribute('data-tariff'),
-                    price: this.getAttribute('data-price')
-                };
-                
-                confirmTariff.disabled = false;
+            
+            // Close modal
+            closeModal.addEventListener('click', function() {
+                tariffModal.style.display = 'none';
             });
-        });
-        
-        // Confirm tariff selection
-        confirmTariff.addEventListener('click', function() {
-            if (selectedTariff) {
-                // Set the selected value in the form
-                serviceSelect.textContent = `${selectedTariff.name} (${selectedTariff.price} руб.)`;
-                serviceInput.value = `${selectedTariff.name} (${selectedTariff.price} руб.)`;
-                
-                // Close modal
-                tariffModal.style.display = 'none';
-                
-                // Scroll to contact form
-                document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-        
-        // Close modal
-        closeModal.addEventListener('click', function() {
-            tariffModal.style.display = 'none';
-        });
-        
-        window.addEventListener('click', function(e) {
-            if (e.target === tariffModal) {
-                tariffModal.style.display = 'none';
-            }
-        });
+            
+            window.addEventListener('click', function(e) {
+                if (e.target === tariffModal) {
+                    tariffModal.style.display = 'none';
+                }
+            });
+        }
         
         // Form submission
         const contactForm = document.getElementById('mainForm');
         const notification = document.getElementById('notification');
         
         function showNotification() {
-            notification.classList.add('show');
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
+            if (notification) {
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
         }
         
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Simple validation
-            if (!serviceInput.value) {
-                alert('Пожалуйста, выберите услугу');
-                return;
-            }
-            
-            // Show notification
-            showNotification();
-            
-            // Reset form
-            contactForm.reset();
-            serviceSelect.textContent = 'Выберите способ потери денег';
-            serviceInput.value = '';
-            
-            // In a real application, you would send the form data to a server here
-            console.log('Форма отправлена!');
-        });
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Simple validation
+                if (serviceInput && !serviceInput.value) {
+                    alert('Пожалуйста, выберите услугу');
+                    return;
+                }
+                
+                // Show notification
+                showNotification();
+                
+                // Reset form
+                contactForm.reset();
+                if (serviceSelect && serviceInput) {
+                    serviceSelect.textContent = 'Выберите способ потери денег';
+                    serviceInput.value = '';
+                }
+                
+                // In a real application, you would send the form data to a server here
+                console.log('Форма отправлена!');
+            });
+        }
     </script>
 </body>
 </html>
