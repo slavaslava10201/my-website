@@ -937,7 +937,7 @@
                             </div>
                             <div class="contact-details">
                                 <span class="contact-type">Telegram</span>
-                                <span class="contact-value">@maybe_scam</span>
+                                <span class="contact-value">@andrey_pidoras_tg</span>
                             </div>
                         </div>
                         
@@ -1029,7 +1029,7 @@
                     <h3 class="footer-title">Контакты</h3>
                     <ul class="footer-links">
                         <li><a href="mailto:probably-fake@andreypidoras.ru">probably-fake@andreypidoras.ru</a></li>
-                        <li><a href="https://t.me/maybe_scam" target="_blank">@maybe_scam</a></li>
+                        <li><a href="https://t.me/andrey_pidoras_tg" target="_blank">@andrey_pidoras_tg</a></li>
                         <li>Когда захотим</li>
                     </ul>
                 </div>
@@ -1044,13 +1044,9 @@
     <div class="notification" id="notification">Деньги успешно отправлены! (скорее всего)</div>
     
     <script>
-        // Темная тема
-        const themeToggle = document.getElementById('themeToggle');
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                document.body.classList.toggle('dark-mode');
-                themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-            });
-        }
-        
-        // FAQ
+        // FAQ аккордеон
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                item.classList.toggle
