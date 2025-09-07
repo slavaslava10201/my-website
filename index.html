@@ -1101,3 +1101,278 @@
                         
                         <div class="form-group">
                             <label for="service" class="form-label">Услуга</label>
+                        <div class="form-group custom-select">
+                            <div class="select-selected" id="service-select">Выберите способ потери денег</div>
+                            <div class="select-items select-hide" id="service-options">
+                                <div data-value="Базовое удаление (100 руб.)">Базовое удаление (100 руб.)</div>
+                                <div data-value="Попытка удаления (200 руб.)">Попытка удаления (200 руб.)</div>
+                                <div data-value="На удачу (500 руб.)">На удачу (500 руб.)</div>
+                            </div>
+                            <input type="hidden" id="service" name="service" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label">Дополнительная информация</label>
+                            <textarea id="message" name="message" class="form-input" placeholder="Опишите, как вы готовы расстаться с деньгами"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-paper-plane"></i> Отправить деньги
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        <i class="fab fa-telegram"></i> AndreyPidoras
+                    </div>
+                    <p class="footer-text">Сомнительное удаление аккаунтов Telegram без гарантий и поддержки.</p>
+                    <div class="footer-social">
+                        <a href="https://t.me/andrey_pidoras_tg" class="social-link" target="_blank"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
+                        <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">Услуги</h3>
+                    <ul class="footer-links">
+                        <li><a href="#services">Базовое удаление</a></li>
+                        <li><a href="#services">Попытка удаления</a></li>
+                        <li><a href="#services">На удачу</a></li>
+                        <li><a href="#contact">Консультация (ещё 50 руб.)</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">Навигация</h3>
+                    <ul class="footer-links">
+                        <li><a href="#services">Услуги</a></li>
+                        <li><a href="#how-it-works">Как это (не) работает</a></li>
+                        <li><a href="#faq">Вопросы</a></li>
+                        <li><a href="#contact">Контакты</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">Контакты</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:probably-fake@andreypidoras.ru">probably-fake@andreypidoras.ru</a></li>
+                        <li><a href="https://t.me/andrey_pidoras_tg" target="_blank">@andrey_pidoras_tg</a></li>
+                        <li>Когда захотим</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>AndreyPidoras &copy; 2025-2026. Никакие права не защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for tariff selection -->
+    <div class="modal" id="tariffModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h3 class="modal-title">Выберите тариф</h3>
+            
+            <div class="tariff-options">
+                <div class="tariff-option" data-tariff="Базовое удаление" data-price="100">
+                    <div class="tariff-name">Базовое удаление</div>
+                    <div class="tariff-price">100 руб.</div>
+                </div>
+                
+                <div class="tariff-option" data-tariff="Попытка удаления" data-price="200">
+                    <div class="tariff-name">Попытка удаления</div>
+                    <div class="tariff-price">200 руб.</div>
+                </div>
+                
+                <div class="tariff-option" data-tariff="На удачу" data-price="500">
+                    <div class="tariff-name">На удачу</div>
+                    <div class="tariff-price">500 руб.</div>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary" id="confirmTariff" style="width: 100%;" disabled>
+                <i class="fas fa-check"></i> Подтвердить выбор
+            </button>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">Деньги успешно отправлены! (скорее всего)</div>
+    
+    <script>
+        // FAQ аккордеон
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                // Close other items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.faq-answer').style.maxHeight = '0';
+                        otherItem.querySelector('.faq-answer').style.padding = '0 1.5rem';
+                    }
+                });
+                
+                // Toggle current item
+                item.classList.toggle('active');
+                const answer = item.querySelector('.faq-answer');
+                if (item.classList.contains('active')) {
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    answer.style.padding = '0 1.5rem 1.5rem';
+                } else {
+                    answer.style.maxHeight = '0';
+                    answer.style.padding = '0 1.5rem';
+                }
+            });
+        });
+        
+        // Custom select
+        const serviceSelect = document.getElementById('service-select');
+        const serviceOptions = document.getElementById('service-options');
+        const serviceInput = document.getElementById('service');
+        
+        serviceSelect.addEventListener('click', function(e) {
+            e.stopPropagation();
+            serviceOptions.classList.toggle('select-hide');
+            serviceSelect.classList.toggle('select-arrow-active');
+        });
+        
+        document.querySelectorAll('#service-options div').forEach(option => {
+            option.addEventListener('click', function() {
+                serviceSelect.textContent = this.textContent;
+                serviceInput.value = this.getAttribute('data-value');
+                serviceOptions.classList.add('select-hide');
+                serviceSelect.classList.remove('select-arrow-active');
+            });
+        });
+        
+        // Close select when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target !== serviceSelect) {
+                serviceOptions.classList.add('select-hide');
+                serviceSelect.classList.remove('select-arrow-active');
+            }
+        });
+        
+        // Modal for tariff selection
+        const tariffModal = document.getElementById('tariffModal');
+        const closeModal = document.getElementById('closeModal');
+        const confirmTariff = document.getElementById('confirmTariff');
+        const selectTariffButtons = document.querySelectorAll('.select-tariff');
+        let selectedTariff = null;
+        
+        selectTariffButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                selectedTariff = {
+                    name: this.getAttribute('data-tariff'),
+                    price: this.getAttribute('data-price')
+                };
+                
+                // Reset selections
+                document.querySelectorAll('.tariff-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Find and select corresponding option
+                document.querySelectorAll('.tariff-option').forEach(opt => {
+                    if (opt.getAttribute('data-tariff') === selectedTariff.name) {
+                        opt.classList.add('selected');
+                    }
+                });
+                
+                confirmTariff.disabled = false;
+                tariffModal.style.display = 'flex';
+            });
+        });
+        
+        // Tariff selection in modal
+        document.querySelectorAll('.tariff-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove selection from all options
+                document.querySelectorAll('.tariff-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Add selection to clicked option
+                this.classList.add('selected');
+                
+                selectedTariff = {
+                    name: this.getAttribute('data-tariff'),
+                    price: this.getAttribute('data-price')
+                };
+                
+                confirmTariff.disabled = false;
+            });
+        });
+        
+        // Confirm tariff selection
+        confirmTariff.addEventListener('click', function() {
+            if (selectedTariff) {
+                // Set the selected value in the form
+                serviceSelect.textContent = `${selectedTariff.name} (${selectedTariff.price} руб.)`;
+                serviceInput.value = `${selectedTariff.name} (${selectedTariff.price} руб.)`;
+                
+                // Close modal
+                tariffModal.style.display = 'none';
+                
+                // Scroll to contact form
+                document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+        
+        // Close modal
+        closeModal.addEventListener('click', function() {
+            tariffModal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(e) {
+            if (e.target === tariffModal) {
+                tariffModal.style.display = 'none';
+            }
+        });
+        
+        // Form submission
+        const contactForm = document.getElementById('mainForm');
+        const notification = document.getElementById('notification');
+        
+        function showNotification() {
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simple validation
+            if (!serviceInput.value) {
+                alert('Пожалуйста, выберите услугу');
+                return;
+            }
+            
+            // Show notification
+            showNotification();
+            
+            // Reset form
+            contactForm.reset();
+            serviceSelect.textContent = 'Выберите способ потери денег';
+            serviceInput.value = '';
+            
+            // In a real application, you would send the form data to a server here
+            console.log('Форма отправлена!');
+        });
+    </script>
+</body>
+</html>
