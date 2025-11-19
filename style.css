@@ -1,1 +1,73 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #f06, #4a00e0); /* Красивый градиент */
+    color: white;
+}
 
+.container {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 300px;
+}
+
+h1 {
+    color: #00f8d1;
+    margin-bottom: 25px;
+}
+
+.click-button {
+    width: 200px;
+    height: 200px;
+    margin: 30px auto;
+    border-radius: 50%; /* Круглая кнопка */
+    background-color: #ffcc00;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    box-shadow: 0 8px 0 #cc9900;
+    user-select: none; /* Чтобы текст не выделялся при клике */
+}
+
+.click-button:active {
+    transform: translateY(4px); /* Эффект нажатия */
+    box-shadow: 0 4px 0 #cc9900;
+}
+
+.stats p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+#totalClicks, #cps {
+    font-weight: bold;
+    color: #ff66a1;
+}
+
+#resetButton {
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #f60;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#resetButton:hover {
+    background-color: #d85700;
+  }
+  
