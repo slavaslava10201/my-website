@@ -3,25 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Красивый Кликер</title>
+    <title>Clicker game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
-        <h1>🚀 Clicker Pro</h1>
-
-        <div id="clickArea" class="click-button">
-            Нажми меня!
-        </div>
-
-        <div class="stats">
-            <p>Общее количество кликов: <span id="totalClicks">0</span></p>
-            <p>Кликов в секунду (CPS): <span id="cps">0.00</span></p>
-        </div>
-
-        <button id="resetButton">Сбросить</button>
+    <div class="header">
+        <div class="header-button">i</div>
+        <h1>Clicker game</h1>
+        <div class="header-button">/</div>
     </div>
+
+    <div class="stats-area">
+        <div class="total-clicks-display" id="totalClicks">0</div>
+        <div class="clicks-label">КЛИКОВ</div>
+        
+        <div class="cps-small-stat">
+            <span id="cps">0</span>
+            <span class="cps-label">кликов в секунду</span>
+        </div>
+    </div>
+    
+    <div id="clickArea" class="click-area">
+        </div>
 
     <script src="script.js"></script>
 </body>
