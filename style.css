@@ -1,73 +1,103 @@
 body {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between; /* Распределение элементов по вертикали */
     align-items: center;
     min-height: 100vh;
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #f06, #4a00e0); /* Красивый градиент */
-    color: white;
+    background-color: #A3D5FF; /* Светло-голубой фон */
+    color: black;
+    padding: 10px 0 20px 0;
 }
 
-.container {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    text-align: center;
-    width: 300px;
+/* --- ШАПКА (Для схожести со скриншотом) --- */
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-sizing: border-box;
 }
 
-h1 {
-    color: #00f8d1;
-    margin-bottom: 25px;
+.header h1 {
+    font-size: 20px;
+    font-weight: normal;
+    margin: 0;
 }
 
-.click-button {
-    width: 200px;
-    height: 200px;
-    margin: 30px auto;
-    border-radius: 50%; /* Круглая кнопка */
-    background-color: #ffcc00;
-    color: #333;
+.header-button {
+    width: 30px;
+    height: 30px;
+    background-color: #C0E8FF;
+    border: 2px solid #0000FF;
+    color: #0000FF;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* --- ОБЛАСТЬ СТАТИСТИКИ --- */
+.stats-area {
+    text-align: center;
+    flex-grow: 1; /* Позволяет статистике занять центральное место */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: -50px; /* Немного поднять статистику */
+}
+
+.total-clicks-display {
+    font-size: 90px;
+    font-weight: 900;
+    color: black;
+    line-height: 1;
+}
+
+.clicks-label {
+    font-size: 24px;
+    font-weight: 800;
+    margin-top: 5px;
+}
+
+.cps-small-stat {
+    margin-top: 15px;
+    font-size: 14px;
+    line-height: 1;
+}
+
+#cps {
+    font-weight: bold;
+    color: #333;
+}
+
+.cps-label {
+    margin-left: 5px;
+    color: #333;
+}
+
+
+/* --- ОБЛАСТЬ КЛИКА (Черный квадрат) --- */
+.click-area {
+    width: 250px;
+    height: 250px;
+    background-color: black;
+    border: 5px solid #0000FF; /* Синяя рамка */
+    border-radius: 15px;
     cursor: pointer;
     transition: transform 0.1s ease, box-shadow 0.1s ease;
-    box-shadow: 0 8px 0 #cc9900;
-    user-select: none; /* Чтобы текст не выделялся при клике */
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    margin-bottom: 20px;
 }
 
-.click-button:active {
-    transform: translateY(4px); /* Эффект нажатия */
-    box-shadow: 0 4px 0 #cc9900;
-}
-
-.stats p {
-    font-size: 18px;
-    margin: 10px 0;
-}
-
-#totalClicks, #cps {
-    font-weight: bold;
-    color: #ff66a1;
-}
-
-#resetButton {
-    padding: 10px 20px;
-    margin-top: 20px;
-    border: none;
-    border-radius: 8px;
-    background-color: #f60;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-#resetButton:hover {
-    background-color: #d85700;
-  }
-  
+.click-area:active {
+    transform: scale(0.98); /* Легкий эффект сжатия */
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+    }
+    
