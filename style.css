@@ -1,17 +1,18 @@
 body {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Распределение элементов по вертикали */
+    justify-content: space-between;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Montserrat', sans-serif; /* Основной шрифт */
     background-color: #A3D5FF; /* Светло-голубой фон */
     color: black;
     padding: 10px 0 20px 0;
+    overflow: hidden; /* Предотвращаем прокрутку, если что-то выходит за рамки */
 }
 
-/* --- ШАПКА (Для схожести со скриншотом) --- */
+/* --- ШАПКА --- */
 .header {
     width: 100%;
     display: flex;
@@ -19,85 +20,140 @@ body {
     align-items: center;
     padding: 10px 20px;
     box-sizing: border-box;
+    font-family: 'Roboto Mono', monospace; /* Моноширинный шрифт для заголовка */
 }
 
 .header h1 {
-    font-size: 20px;
-    font-weight: normal;
+    font-size: 24px; /* Чуть крупнее */
+    font-weight: 700; /* Более жирный */
     margin: 0;
+    color: #333; /* Темнее */
+    letter-spacing: 1px; /* Разреженность букв */
 }
 
 .header-button {
-    width: 30px;
-    height: 30px;
+    width: 35px; /* Чуть крупнее */
+    height: 35px;
     background-color: #C0E8FF;
     border: 2px solid #0000FF;
     color: #0000FF;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 20px;
-    font-weight: bold;
-    border-radius: 5px;
+    font-size: 22px; /* Чуть крупнее */
+    font-weight: 900; /* Очень жирный */
+    border-radius: 8px; /* Чуть более скругленные */
     cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease; /* Плавный переход */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Легкая тень */
+}
+
+.header-button:active {
+    background-color: #AEE2FF; /* Цвет при нажатии */
+    border-color: #0000CC;
+    transform: translateY(1px); /* Легкое смещение */
 }
 
 /* --- ОБЛАСТЬ СТАТИСТИКИ --- */
 .stats-area {
     text-align: center;
-    flex-grow: 1; /* Позволяет статистике занять центральное место */
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: -50px; /* Немного поднять статистику */
+    margin-top: -60px; /* Еще выше, чтобы дать место для квадрата */
+    animation: fadeIn 1s ease-out; /* Анимация появления */
 }
 
 .total-clicks-display {
-    font-size: 90px;
+    font-size: 110px; /* Значительно крупнее */
     font-weight: 900;
-    color: black;
+    color: #0A0A0A; /* Почти черный */
     line-height: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Тень для глубины */
+    font-family: 'Montserrat', sans-serif;
 }
 
 .clicks-label {
-    font-size: 24px;
-    font-weight: 800;
-    margin-top: 5px;
+    font-size: 28px; /* Крупнее */
+    font-weight: 900; /* Очень жирный */
+    margin-top: 10px; /* Отступ */
+    letter-spacing: 2px;
+    color: #333;
 }
 
 .cps-small-stat {
-    margin-top: 15px;
-    font-size: 14px;
+    margin-top: 25px; /* Увеличим отступ */
+    font-size: 16px;
     line-height: 1;
+    color: #555;
+    font-family: 'Roboto Mono', monospace; /* Моноширинный шрифт для CPS */
 }
 
 #cps {
     font-weight: bold;
-    color: #333;
+    color: #000000; /* Черный для контраста */
+    font-size: 18px; /* Чуть крупнее */
 }
 
 .cps-label {
-    margin-left: 5px;
-    color: #333;
+    margin-left: 8px;
+    color: #555;
 }
-
 
 /* --- ОБЛАСТЬ КЛИКА (Черный квадрат) --- */
 .click-area {
-    width: 250px;
-    height: 250px;
+    width: 280px; /* Крупнее */
+    height: 280px;
     background-color: black;
-    border: 5px solid #0000FF; /* Синяя рамка */
-    border-radius: 15px;
+    border: 6px solid #0000FF; /* Чуть толще рамка */
+    border-radius: 20px; /* Более скругленные углы */
     cursor: pointer;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
-    margin-bottom: 20px;
+    margin-bottom: 30px; /* Отступ от низа */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Более выраженная тень */
 }
 
 .click-area:active {
-    transform: scale(0.98); /* Легкий эффект сжатия */
-    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+    transform: scale(0.96); /* Чуть больше сжатия */
+    background-color: #333333; /* Чуть светлее при нажатии */
+    border-color: #0000DD; /* Немного темнее рамка */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* --- Анимации --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Анимация для счетчика кликов, чтобы он появлялся чуть-чуть */
+.total-clicks-display {
+    animation: scaleIn 0.2s ease-out;
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.9); opacity: 0.7; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Медиа-запросы для лучшей адаптации на очень маленьких экранах */
+@media (max-width: 380px) {
+    .click-area {
+        width: 240px;
+        height: 240px;
+        border-radius: 15px;
     }
+    .total-clicks-display {
+        font-size: 90px;
+    }
+    .clicks-label {
+        font-size: 22px;
+    }
+    .header h1 {
+        font-size: 20px;
+    }
+                                  }
     
