@@ -1,24 +1,24 @@
 let totalClicks = 0;
-let clickTimes = []; // Массив для хранения времени каждого клика
+let clickTimes = [];
+// Используем новые ID элементов из HTML: clickArea, totalClicks, cps
 const clickArea = document.getElementById('clickArea');
 const totalClicksDisplay = document.getElementById('totalClicks');
 const cpsDisplay = document.getElementById('cps');
-const resetButton = document.getElementById('resetButton');
 
 // Функция для обновления статистики
 function updateStats() {
-    // 1. Общее количество кликов
+    // Обновляем общий счетчик кликов
     totalClicksDisplay.textContent = totalClicks;
 
-    // 2. Расчет CPS (Кликов в секунду)
+    // Расчет CPS (Кликов в секунду)
     const now = Date.now();
-    // Удаляем старые времена кликов (старше 1 секунды)
+    // Фильтруем клики, оставляя только те, что были сделаны за последнюю секунду (1000 мс)
     clickTimes = clickTimes.filter(time => now - time < 1000);
 
     const clicksInLastSecond = clickTimes.length;
-    // CPS - это количество кликов за последнюю секунду
-    // Если нужно среднее за все время, расчет будет другим (totalClicks / (now - startTime))
-    cpsDisplay.textContent = clicksInLastSecond.toFixed(2);
+    // Выводим CPS (округляем до целого или оставляем .00 если кликов нет)
+    // Убираем toFixed(2) для схожести со скриншотом, который показывает 0
+    cpsDisplay.textContent = clicksInLastSecond; 
 }
 
 // Обработчик события клика
@@ -28,18 +28,19 @@ clickArea.addEventListener('click', () => {
     updateStats();
 });
 
-// Обработчик кнопки сброса
+// На скриншоте нет кнопки сброса, но если она нужна, ее нужно добавить в HTML и JS.
+// Если она не нужна, просто удалите этот блок.
+/*
+const resetButton = document.getElementById('resetButton');
 resetButton.addEventListener('click', () => {
     totalClicks = 0;
     clickTimes = [];
     updateStats();
-    console.log('Счетчик сброшен!');
 });
+*/
 
-// Для постоянного обновления CPS, даже если кликов нет
-// Установим интервал обновления 100 мс
+// Постоянное обновление статистики (10 раз в секунду) для плавного отображения CPS
 setInterval(updateStats, 100);
 
 // Инициализация при загрузке
 updateStats();
-  
